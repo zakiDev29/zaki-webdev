@@ -3,58 +3,77 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Daftar Tugas Harian — Pengelola Tugas Modern</title>
-<link href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjdlQTee24oIiD42udi1KuOrTMQxHsVojLSuWXwQYQdWNrKoxVVgHHXahhPPiClDFp435-Z3Wpw-5oqawFbPQrTTvSST3akMEWyjZ1uf-AHFtuDwjvuDhH85GCOmPt2gXG1GXpKnlSg4A9CxepiKMuIDUQhUCKaPEBU_wJmoBUqRsvPDSBTAxH7UmTl/w945-h600-p-k-no-nu/474106312_3896047093996805_2559305909562047373_n.jpg">
+<title>Daftar Tugas Harian — Pengelola Tugas</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg1: #0f1724;
+    /* warna default (gelap) */
+    --bg: #0f1724;
     --panel: rgba(255,255,255,0.04);
     --accent: #7ef9a6;
     --muted: #9aa6b2;
     --glass: rgba(255,255,255,0.03);
+    --text: #e6eef6;
+    --card-grad: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    --shadow: 0 10px 40px rgba(2,6,23,0.7);
   }
+  :root.light {
+    /* warna untuk mode terang */
+    --bg: #f6f8fb;
+    --panel: rgba(2,6,23,0.03);
+    --accent: #2f80ed;
+    --muted: #556270;
+    --glass: rgba(2,6,23,0.04);
+    --text: #0b1220;
+    --card-grad: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
+    --shadow: 0 8px 30px rgba(11,18,32,0.06);
+  }
+
   *{box-sizing:border-box}
+  html,body{height:100%}
   body{
     margin:0;
     min-height:100vh;
     font-family:"Poppins",sans-serif;
-    background: radial-gradient(1200px 600px at 10% 10%, rgba(126,249,166,0.06), transparent 10%),
-                radial-gradient(1000px 500px at 90% 90%, rgba(122,200,255,0.03), transparent 10%),
-                var(--bg1);
+    background:
+      radial-gradient(1200px 600px at 10% 10%, rgba(126,249,166,0.06), transparent 10%),
+      radial-gradient(1000px 500px at 90% 90%, rgba(122,200,255,0.03), transparent 10%),
+      var(--bg);
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:40px;
-    color:#e6eef6;
+    padding:28px;
+    color:var(--text);
+    transition: background .25s ease, color .25s ease;
   }
+
   .card{
     width:100%;
-    max-width:920px;
-    border-radius:16px;
-    padding:22px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    box-shadow: 0 10px 40px rgba(2,6,23,0.7);
+    max-width:980px;
+    border-radius:14px;
+    padding:18px;
+    background: var(--card-grad);
+    box-shadow: var(--shadow);
     display:grid;
-    grid-template-columns: 360px 1fr;
-    gap:20px;
+    grid-template-columns: 340px 1fr;
+    gap:18px;
     overflow:hidden;
   }
+
+  /* Sisi kiri */
   .side {
     padding:14px;
     border-radius:12px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
     border: 1px solid rgba(255,255,255,0.03);
     display:flex;
     flex-direction:column;
     gap:12px;
+    min-height:280px;
   }
-  .brand {
-    display:flex;
-    gap:12px;
-    align-items:center;
-  }
+  .brand { display:flex; gap:12px; align-items:center; }
   .logo {
-    width:44px; height:44px; border-radius:10px;
+    width:46px; height:46px; border-radius:10px;
     background: linear-gradient(135deg, var(--accent), #66d0ff);
     display:flex; align-items:center; justify-content:center;
     color:#022; font-weight:700; font-size:18px;
@@ -62,64 +81,50 @@
   }
   h1{font-size:18px; margin:0}
   p.lead{margin:0;font-size:13px;color:var(--muted)}
-  .add {
-    margin-top:8px;
-    display:flex; gap:8px;
-  }
+  .add { margin-top:8px; display:flex; gap:8px; align-items:center; }
   .add input{
     flex:1; padding:12px 14px; border-radius:10px; border:none;
     background:var(--glass); color:inherit; outline:none; font-size:14px;
   }
   .add button{
-    padding:12px 14px; border-radius:10px; border:none; cursor:pointer;
+    padding:10px 12px; border-radius:10px; border:none; cursor:pointer;
     background:linear-gradient(90deg,var(--accent), #66d0ff);
     color:#012; font-weight:700;
   }
-  .filters{
-    display:flex; gap:8px; flex-wrap:wrap;
-    margin-top:6px;
-  }
+  .filters{ display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
   .chip{
     padding:8px 10px; border-radius:999px; background:transparent; border:1px solid rgba(255,255,255,0.03);
     cursor:pointer; font-size:13px; color:var(--muted);
   }
   .chip.active{
     background:linear-gradient(90deg,var(--accent), #66d0ff);
-    color:#022;
-    border:none;
+    color:#022; border:none;
   }
-  .stats{
-    margin-top:auto; font-size:13px; color:var(--muted);
-  }
+  .stats{ margin-top:auto; font-size:13px; color:var(--muted); }
+
+  /* panel kanan */
   .tasks-panel{
     padding:14px; border-radius:12px;
     background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
     border: 1px solid rgba(255,255,255,0.03);
     display:flex; flex-direction:column; gap:12px;
   }
-  .topbar{
-    display:flex; justify-content:space-between; align-items:center; gap:12px;
-  }
+  .topbar{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
   .search {
     flex:1; display:flex; gap:8px; align-items:center;
     background:var(--glass); padding:8px 10px; border-radius:10px;
   }
   .search input{border:none; outline:none; background:transparent; color:inherit; width:100%}
-  .sort{
-    display:flex; gap:8px; align-items:center;
-  }
+  .controls { display:flex; gap:12px; align-items:center; }
   select{background:transparent; color:inherit; border:none; outline:none; padding:8px 10px; border-radius:8px}
-  .list{
-    display:flex; flex-direction:column; gap:10px; overflow:auto; padding-right:6px;
-    max-height:520px;
-  }
+  .list{ display:flex; flex-direction:column; gap:10px; overflow:auto; padding-right:6px; max-height:520px; }
   .task{
     display:flex; gap:12px; align-items:center; padding:12px; border-radius:10px;
     background: linear-gradient(180deg, rgba(255,255,255,0.005), rgba(255,255,255,0.002));
     border:1px solid rgba(255,255,255,0.02);
     transition: transform .12s ease, box-shadow .12s ease, opacity .15s ease;
   }
-  .task:hover{ transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.6) }
+  .task:hover{ transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.12) }
   .task .left{flex:1; display:flex; gap:12px; align-items:center}
   .checkbox{
     width:18px; height:18px; border-radius:6px; border:1px solid rgba(255,255,255,0.06);
@@ -132,11 +137,22 @@
   .actions{ display:flex; gap:8px; align-items:center }
   .icon-btn{ padding:8px; border-radius:8px; border:none; background:transparent; cursor:pointer; color:var(--muted) }
   .icon-btn.danger{ color:#ff9a9a }
-  .empty {
-    text-align:center; color:var(--muted); padding:30px 10px; border-radius:10px;
-    border:1px dashed rgba(255,255,255,0.02);
+  .empty { text-align:center; color:var(--muted); padding:30px 10px; border-radius:10px; border:1px dashed rgba(255,255,255,0.02); }
+
+  /* modal edit */
+  .modal-backdrop{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(2,6,23,0.5); z-index:50; }
+  .modal{ width:100%; max-width:520px; background:var(--card-grad); border-radius:12px; padding:18px; box-shadow: var(--shadow); }
+  .modal h3{ margin:0 0 8px 0 }
+  .form-row{ display:flex; gap:8px; flex-direction:column; margin-bottom:10px; }
+  .form-row input[type="text"], .form-row textarea, .form-row input[type="date"]{
+    padding:10px; border-radius:8px; border:none; background:var(--glass); color:inherit; outline:none; font-size:14px;
   }
-  @media (max-width:880px){
+  .modal-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+  .btn{ padding:10px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
+  .btn.ghost{ background:transparent; color:var(--muted); }
+  .btn.primary{ background:linear-gradient(90deg,var(--accent), #66d0ff); color:#022; }
+
+  @media (max-width:900px){
     .card{grid-template-columns:1fr; width:100%}
     .side{order:2}
   }
@@ -144,71 +160,138 @@
 </head>
 <body>
 <div class="card" role="application" aria-label="Pengelola Tugas Modern">
-  <div class="side">
+  <div class="side" aria-hidden="false">
     <div class="brand">
       <div class="logo">TD</div>
       <div>
-        <h1>Tugas Harian</h1>
-        <p class="lead">Sederhana. Cepat. Disimpan di browser kamu.</p>
+        <h1>Daftar Tugas Harian</h1>
+        <p class="lead">Sederhana • Cepat • Disimpan di browser</p>
       </div>
     </div>
+
     <div class="add" aria-label="Tambah tugas">
-      <input id="taskInput" placeholder="Tambahkan tugas baru lalu tekan Enter" />
+      <input id="taskInput" placeholder="Tambahkan tugas baru lalu tekan Enter" aria-label="Input tugas baru" />
       <button id="addBtn">Tambah</button>
     </div>
-    <div class="filters">
+
+    <div class="filters" role="tablist" aria-label="Filter tugas">
       <div class="chip active" data-filter="all">Semua</div>
       <div class="chip" data-filter="active">Aktif</div>
       <div class="chip" data-filter="completed">Selesai</div>
       <div class="chip" data-filter="today">Hari Ini</div>
     </div>
+
     <div class="stats" id="stats">0 tugas • 0 selesai</div>
   </div>
+
   <div class="tasks-panel">
     <div class="topbar">
-      <div class="search">
+      <div class="search" role="search">
         🔍
-        <input id="search" placeholder="Cari tugas..." />
+        <input id="search" placeholder="Cari tugas..." aria-label="Cari tugas" />
       </div>
-      <div class="sort">
+
+      <div class="controls" role="group" aria-label="Kontrol">
         <label for="sortSel" style="font-size:13px;color:var(--muted)">Urutkan</label>
-        <select id="sortSel">
+        <select id="sortSel" aria-label="Urutkan tugas">
           <option value="new">Terbaru</option>
           <option value="old">Terlama</option>
           <option value="alpha">A → Z</option>
         </select>
+
+        <button id="themeToggle" title="Ganti Tema" class="icon-btn" aria-label="Ganti tema">🌓</button>
       </div>
     </div>
-    <div class="list" id="list"></div>
+
+    <div class="list" id="list" tabindex="0" aria-live="polite"></div>
+
     <div id="empty" class="empty" hidden>
       Belum ada tugas — tambahkan sesuatu yang ingin kamu selesaikan!
     </div>
   </div>
 </div>
+
+<!-- Modal Edit -->
+<div id="modalBackdrop" class="modal-backdrop" style="display:none" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">Ubah Tugas</h3>
+    <div class="form-row">
+      <label>Judul</label>
+      <input id="editTitle" type="text" />
+    </div>
+    <div class="form-row">
+      <label>Catatan (opsional)</label>
+      <textarea id="editNote" rows="3"></textarea>
+    </div>
+    <div class="form-row">
+      <label>Tanggal Jatuh Tempo (opsional)</label>
+      <input id="editDue" type="date" />
+    </div>
+    <div class="modal-actions">
+      <button id="cancelEdit" class="btn ghost">Batal</button>
+      <button id="saveEdit" class="btn primary">Simpan</button>
+    </div>
+  </div>
+</div>
+
 <script>
+/* Localized ToDo App — Bahasa Indonesia + Theme + Modal Edit */
 const STORAGE_KEY = 'modern_todo_tasks_v1';
 let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+/* DOM refs */
 const $ = s => document.querySelector(s);
 const listEl = $('#list');
 const taskInput = $('#taskInput');
 const addBtn = $('#addBtn');
 const statsEl = $('#stats');
-const chips = document.querySelectorAll('.chip');
 const searchEl = $('#search');
 const sortSel = $('#sortSel');
 const emptyEl = $('#empty');
+const chips = document.querySelectorAll('.chip');
+const themeToggle = $('#themeToggle');
+const modalBackdrop = $('#modalBackdrop');
+const editTitle = $('#editTitle');
+const editNote = $('#editNote');
+const editDue = $('#editDue');
+const cancelEdit = $('#cancelEdit');
+const saveEdit = $('#saveEdit');
 
+let editingTaskId = null;
+
+/* Theme handling: simpan preferensi di localStorage */
+function applyTheme(theme){ // 'dark' or 'light'
+  if(theme === 'light') document.documentElement.classList.add('light');
+  else document.documentElement.classList.remove('light');
+  localStorage.setItem('modern_todo_theme', theme);
+}
+const savedTheme = localStorage.getItem('modern_todo_theme') || 'dark';
+applyTheme(savedTheme);
+
+/* Utility */
 function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); }
 function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 function formatDate(ts){
   if(!ts) return '';
   const d = new Date(ts);
-  return d.toLocaleString('id-ID');
+  // tampilkan sesuai locale Indonesia
+  return d.toLocaleString('id-ID', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
 }
+function formatDateForInput(ts){
+  if(!ts) return '';
+  const d = new Date(ts);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+/* Render */
 function render(){
   const filter = document.querySelector('.chip.active').dataset.filter;
   const q = searchEl.value.trim().toLowerCase();
   let visible = tasks.slice();
+
   if(filter === 'active') visible = visible.filter(t => !t.done);
   if(filter === 'completed') visible = visible.filter(t => t.done);
   if(filter === 'today'){
@@ -216,56 +299,76 @@ function render(){
     const end = new Date(); end.setHours(23,59,59,999);
     visible = visible.filter(t => t.due && new Date(t.due) >= start && new Date(t.due) <= end);
   }
-  if(q) visible = visible.filter(t => t.title.toLowerCase().includes(q) || (t.note||'').toLowerCase().includes(q));
+
+  if(q) visible = visible.filter(t => (t.title||'').toLowerCase().includes(q) || (t.note||'').toLowerCase().includes(q));
+
   const sort = sortSel.value;
   if(sort === 'new') visible.sort((a,b)=>b.created - a.created);
   else if(sort === 'old') visible.sort((a,b)=>a.created - b.created);
   else if(sort === 'alpha') visible.sort((a,b)=> a.title.localeCompare(b.title));
+
   listEl.innerHTML = '';
-  if(visible.length === 0){ emptyEl.hidden = false; }
-  else {
+  if(visible.length === 0){
+    emptyEl.hidden = false;
+  } else {
     emptyEl.hidden = true;
     visible.forEach(t => listEl.appendChild(taskNode(t)));
   }
+
   const total = tasks.length;
   const done = tasks.filter(t=>t.done).length;
   statsEl.textContent = `${total} tugas • ${done} selesai`;
 }
 
+/* buat elemen tugas */
 function taskNode(t){
   const wrap = document.createElement('div');
   wrap.className = 'task';
   wrap.dataset.id = t.id;
+
   const left = document.createElement('div');
   left.className = 'left';
+
   const cb = document.createElement('div');
   cb.className = 'checkbox' + (t.done ? ' checked' : '');
   cb.innerHTML = t.done ? '✓' : '';
   cb.title = t.done ? 'Tandai sebagai belum selesai' : 'Tandai sebagai selesai';
+  cb.setAttribute('role','button');
   cb.addEventListener('click', ()=>{
     t.done = !t.done;
+    if(t.done) t.completedAt = Date.now();
+    else t.completedAt = null;
     save(); render();
   });
+
   const meta = document.createElement('div');
   meta.className = 'meta';
   const title = document.createElement('div');
   title.className = 'title-task';
-  title.textContent = t.title;
+  title.textContent = t.title || '(Tanpa judul)';
   if(t.done) title.style.textDecoration = 'line-through';
+
   const sub = document.createElement('div');
   sub.className = 'sub';
-  sub.textContent = t.note ? t.note + ' • ' + (t.due ? formatDate(t.due) : '') : (t.due ? formatDate(t.due) : '');
+  const parts = [];
+  if(t.note) parts.push(t.note);
+  if(t.due) parts.push(formatDate(t.due));
+  sub.textContent = parts.join(' • ');
+
   meta.appendChild(title);
   meta.appendChild(sub);
   left.appendChild(cb);
   left.appendChild(meta);
+
   const actions = document.createElement('div');
   actions.className = 'actions';
+
   const editBtn = document.createElement('button');
   editBtn.className = 'icon-btn';
-  editBtn.title = 'Edit';
+  editBtn.title = 'Ubah';
   editBtn.innerHTML = '✎';
-  editBtn.addEventListener('click', ()=> openEditDialog(t));
+  editBtn.addEventListener('click', ()=> openEditModal(t));
+
   const delBtn = document.createElement('button');
   delBtn.className = 'icon-btn danger';
   delBtn.title = 'Hapus';
@@ -276,13 +379,16 @@ function taskNode(t){
       save(); render();
     }
   });
+
   actions.appendChild(editBtn);
   actions.appendChild(delBtn);
+
   wrap.appendChild(left);
   wrap.appendChild(actions);
   return wrap;
 }
 
+/* menambah tugas */
 function addTask(title, note=null, due=null){
   if(!title || !title.trim()) return;
   const t = {
@@ -291,22 +397,54 @@ function addTask(title, note=null, due=null){
     note: note ? note.trim() : '',
     due: due || null,
     created: Date.now(),
-    done: false
+    done: false,
+    completedAt: null
   };
   tasks.push(t);
   save(); render();
 }
 
-function openEditDialog(t){
-  const newTitle = prompt('Ubah judul tugas', t.title);
-  if(newTitle === null) return;
-  const newNote = prompt('Ubah catatan (opsional)', t.note || '');
-  if(newTitle.trim() === '') return alert('Judul tidak boleh kosong');
-  t.title = newTitle.trim();
-  t.note = newNote ? newNote.trim() : '';
-  save(); render();
+/* Modal edit */
+function openEditModal(t){
+  editingTaskId = t.id;
+  editTitle.value = t.title || '';
+  editNote.value = t.note || '';
+  editDue.value = t.due ? formatDateForInput(t.due) : '';
+  modalBackdrop.style.display = 'flex';
+  modalBackdrop.setAttribute('aria-hidden','false');
+  editTitle.focus();
+}
+function closeModal(){
+  editingTaskId = null;
+  modalBackdrop.style.display = 'none';
+  modalBackdrop.setAttribute('aria-hidden','true');
 }
 
+saveEdit.addEventListener('click', ()=>{
+  const title = editTitle.value.trim();
+  if(title === ''){
+    alert('Judul tidak boleh kosong');
+    editTitle.focus();
+    return;
+  }
+  const note = editNote.value.trim();
+  const dueVal = editDue.value;
+  const t = tasks.find(x=>x.id === editingTaskId);
+  if(t){
+    t.title = title;
+    t.note = note;
+    t.due = dueVal ? new Date(dueVal).toISOString() : null;
+    save(); render(); closeModal();
+  } else {
+    closeModal();
+  }
+});
+cancelEdit.addEventListener('click', ()=> closeModal());
+modalBackdrop.addEventListener('click', (e)=>{
+  if(e.target === modalBackdrop) closeModal();
+});
+
+/* UI Wiring */
 addBtn.addEventListener('click', ()=> {
   addTask(taskInput.value);
   taskInput.value = '';
@@ -315,6 +453,7 @@ addBtn.addEventListener('click', ()=> {
 taskInput.addEventListener('keydown', e=>{
   if(e.key === 'Enter') { addTask(taskInput.value); taskInput.value=''; }
 });
+
 document.addEventListener('click', e=>{
   const chip = e.target.closest('.chip');
   if(chip){
@@ -325,11 +464,25 @@ document.addEventListener('click', e=>{
 });
 searchEl.addEventListener('input', ()=> render());
 sortSel.addEventListener('change', ()=> render());
+
+/* Theme toggle */
+themeToggle.addEventListener('click', ()=>{
+  const isLight = document.documentElement.classList.contains('light');
+  applyTheme(isLight ? 'dark' : 'light');
+});
+function applyTheme(theme){
+  if(theme === 'light') document.documentElement.classList.add('light');
+  else document.documentElement.classList.remove('light');
+  localStorage.setItem('modern_todo_theme', theme);
+}
+
+/* Inisialisasi contoh tugas bila kosong */
 render();
 if(tasks.length === 0){
   addTask('Beli kebutuhan dapur', 'Susu, telur, roti');
-  addTask('Selesaikan laporan', 'Deadline besok jam 5 sore');
+  addTask('Selesaikan laporan', 'Deadline besok jam 17:00');
   addTask('Telepon Andi', 'Bahas proyek baru');
+  // sudah melakukan save di addTask
 }
 </script>
 </body>
