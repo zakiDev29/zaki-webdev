@@ -1,103 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Login Page</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: url('https://picsum.photos/1600/900?blur=5') no-repeat center center/cover;
-    }
-    .login-container {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 40px;
-      width: 350px;
-      text-align: center;
-      color: white;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      animation: fadeIn 1.2s ease-in-out;
-    }
-    .login-container h2 {
-      margin-bottom: 20px;
-      font-size: 28px;
-    }
-    .login-container input {
-      width: 100%;
-      padding: 12px;
-      margin: 12px 0;
-      border: none;
-      border-radius: 10px;
-      outline: none;
-      font-size: 16px;
-    }
-    .login-container input[type="text"],
-    .login-container input[type="password"] {
-      background: rgba(255, 255, 255, 0.8);
-    }
-    .login-container button {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: 0.3s;
-    }
-    .login-container button:hover {
-      background: linear-gradient(135deg, #5563c1, #5c3c8a);
-    }
-    .extra {
-      margin-top: 15px;
-      font-size: 14px;
-    }
-    .extra a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Modern To-Do — Task Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1: #0f1724;
+    --panel: rgba(255,255,255,0.04);
+    --accent: #7ef9a6;
+    --muted: #9aa6b2;
+    --glass: rgba(255,255,255,0.03);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:"Poppins",sans-serif;
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(126,249,166,0.06), transparent 10%),
+                radial-gradient(1000px 500px at 90% 90%, rgba(122,200,255,0.03), transparent 10%),
+                var(--bg1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+    color:#e6eef6;
+  }
+  .card{
+    width:100%;
+    max-width:920px;
+    border-radius:16px;
+    padding:22px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 10px 40px rgba(2,6,23,0.7);
+    display:grid;
+    grid-template-columns: 360px 1fr;
+    gap:20px;
+    overflow:hidden;
+  }
+  /* Left panel */
+  .side {
+    padding:14px;
+    border-radius:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.015));
+    border: 1px solid rgba(255,255,255,0.03);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .brand {
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+  .logo {
+    width:44px; height:44px; border-radius:10px;
+    background: linear-gradient(135deg, var(--accent), #66d0ff);
+    display:flex; align-items:center; justify-content:center;
+    color:#022; font-weight:700; font-size:18px;
+    box-shadow: 0 6px 18px rgba(126,249,166,0.08);
+  }
+  h1{font-size:18px; margin:0}
+  p.lead{margin:0;font-size:13px;color:var(--muted)}
+  .add {
+    margin-top:8px;
+    display:flex; gap:8px;
+  }
+  .add input{
+    flex:1; padding:12px 14px; border-radius:10px; border:none;
+    background:var(--glass); color:inherit; outline:none; font-size:14px;
+  }
+  .add button{
+    padding:12px 14px; border-radius:10px; border:none; cursor:pointer;
+    background:linear-gradient(90deg,var(--accent), #66d0ff);
+    color:#012; font-weight:700;
+  }
+  .filters{
+    display:flex; gap:8px; flex-wrap:wrap;
+    margin-top:6px;
+  }
+  .chip{
+    padding:8px 10px; border-radius:999px; background:transparent; border:1px solid rgba(255,255,255,0.03);
+    cursor:pointer; font-size:13px; color:var(--muted);
+  }
+  .chip.active{
+    background:linear-gradient(90deg,var(--accent), #66d0ff);
+    color:#022;
+    border:none;
+  }
+  .stats{
+    margin-top:auto; font-size:13px; color:var(--muted);
+  }
+  /* Right panel (tasks) */
+  .tasks-panel{
+    padding:14px; border-radius:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    border: 1px solid rgba(255,255,255,0.03);
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .topbar{
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+  }
+  .search {
+    flex:1; display:flex; gap:8px; align-items:center;
+    background:var(--glass); padding:8px 10px; border-radius:10px;
+  }
+  .search input{border:none; outline:none; background:transparent; color:inherit; width:100%}
+  .sort{
+    display:flex; gap:8px; align-items:center;
+  }
+  select{background:transparent; color:inherit; border:none; outline:none; padding:8px 10px; border-radius:8px}
+  .list{
+    display:flex; flex-direction:column; gap:10px; overflow:auto; padding-right:6px;
+    max-height:520px;
+  }
+  .task{
+    display:flex; gap:12px; align-items:center; padding:12px; border-radius:10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.005), rgba(255,255,255,0.002));
+    border:1px solid rgba(255,255,255,0.02);
+    transition: transform .12s ease, box-shadow .12s ease, opacity .15s ease;
+  }
+  .task:hover{ transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.6) }
+  .task .left{flex:1; display:flex; gap:12px; align-items:center}
+  .checkbox{
+    width:18px; height:18px; border-radius:6px; border:1px solid rgba(255,255,255,0.06);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .checkbox.checked{ background:linear-gradient(90deg,var(--accent), #66d0ff); border:none; color:#022; font-weight:700 }
+  .meta{display:flex; flex-direction:column}
+  .title-task{ font-weight:600; font-size:15px }
+  .sub{ font-size:13px; color:var(--muted) }
+  .actions{ display:flex; gap:8px; align-items:center }
+  .icon-btn{ padding:8px; border-radius:8px; border:none; background:transparent; cursor:pointer; color:var(--muted) }
+  .icon-btn.danger{ color:#ff9a9a }
+  .empty {
+    text-align:center; color:var(--muted); padding:30px 10px; border-radius:10px;
+    border:1px dashed rgba(255,255,255,0.02);
+  }
+  /* small screens */
+  @media (max-width:880px){
+    .card{grid-template-columns:1fr; width:100%}
+    .side{order:2}
+  }
+</style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Welcome Back</h2>
-    <form>
-  <!-- Username -->
-  <div class="input-group">
-    <i class="fa fa-user"></i>
-    <input type="text" placeholder="Username" required>
+<div class="card" role="application" aria-label="Modern ToDo Manager">
+  <div class="side" aria-hidden="false">
+    <div class="brand">
+      <div class="logo">TD</div>
+      <div>
+        <h1>Daily Tasks</h1>
+        <p class="lead">Simple. Fast. Local (saved in your browser).</p>
+      </div>
+    </div>
+    <div class="add" aria-label="Add task">
+      <input id="taskInput" placeholder="Add a new task and press Enter" aria-label="New task input" />
+      <button id="addBtn">Add</button>
+    </div>
+    <div class="filters" role="tablist" aria-label="Filters">
+      <div class="chip active" data-filter="all">All</div>
+      <div class="chip" data-filter="active">Active</div>
+      <div class="chip" data-filter="completed">Completed</div>
+      <div class="chip" data-filter="today">Today</div>
+    </div>
+    <div class="stats" id="stats">0 tasks • 0 completed</div>
   </div>
-
-  <!-- Password -->
-  <div class="input-group">
-    <i class="fa fa-lock"></i>
-    <input type="password" placeholder="Password" required>
-  </div>
-
-  <!-- Tombol Login -->
-  <button type="submit">Login</button>
-</form>
-      <button type="submit">Login</button>
-    </form>
-    <div class="extra">
-      <p>Forgot your password? <a href="#">Reset</a></p>
-      <p>New here? <a href="#">Create Account</a></p>
+  <div class="tasks-panel">
+    <div class="topbar">
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <input id="search" placeholder="Search tasks..." />
+      </div>
+      <div class="sort">
+        <label for="sortSel" style="font-size:13px;color:var(--muted)">Sort</label>
+        <select id="sortSel" aria-label="Sort tasks">
+          <option value="new">Newest</option>
+          <option value="old">Oldest</option>
+          <option value="alpha">A → Z</option>
+        </select>
+      </div>
+    </div>
+    <div class="list" id="list" tabindex="0" aria-live="polite">
+      <!-- tasks inserted here -->
+    </div>
+    <div id="empty" class="empty" hidden>
+      No tasks yet — add something you want to get done!
     </div>
   </div>
+</div>
+<script>
+/* Simple ToDo app with localStorage */
+const STORAGE_KEY = 'modern_todo_tasks_v1';
+let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+const $ = sel => document.querySelector(sel);
+const listEl = $('#list');
+const taskInput = $('#taskInput');
+const addBtn = $('#addBtn');
+const statsEl = $('#stats');
+const chips = document.querySelectorAll('.chip');
+const searchEl = $('#search');
+const sortSel = $('#sortSel');
+const emptyEl = $('#empty');
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); }
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function formatDate(ts){
+  if(!ts) return '';
+  const d = new Date(ts);
+  return d.toLocaleString();
+}
+function render(){
+  const filter = document.querySelector('.chip.active').dataset.filter;
+  const q = searchEl.value.trim().toLowerCase();
+  let visible = tasks.slice();
+  // filter
+  if(filter === 'active') visible = visible.filter(t => !t.done);
+  if(filter === 'completed') visible = visible.filter(t => t.done);
+  if(filter === 'today'){
+    const start = new Date(); start.setHours(0,0,0,0);
+    const end = new Date(); end.setHours(23,59,59,999);
+    visible = visible.filter(t => t.due && new Date(t.due) >= start && new Date(t.due) <= end);
+  }
+  // search
+  if(q) visible = visible.filter(t => t.title.toLowerCase().includes(q) || (t.note||'').toLowerCase().includes(q));
+  // sort
+  const sort = sortSel.value;
+  if(sort === 'new') visible.sort((a,b)=>b.created - a.created);
+  else if(sort === 'old') visible.sort((a,b)=>a.created - b.created);
+  else if(sort === 'alpha') visible.sort((a,b)=> a.title.localeCompare(b.title));
+  listEl.innerHTML = '';
+  if(visible.length === 0){
+    emptyEl.hidden = false;
+  } else {
+    emptyEl.hidden = true;
+    visible.forEach(t => listEl.appendChild(taskNode(t)));
+  }
+  const total = tasks.length;
+  const done = tasks.filter(t=>t.done).length;
+  statsEl.textContent = `${total} task${total===1?'':'s'} • ${done} completed`;
+}
+function taskNode(t){
+  const wrap = document.createElement('div');
+  wrap.className = 'task';
+  wrap.dataset.id = t.id;
+  const left = document.createElement('div');
+  left.className = 'left';
+  const cb = document.createElement('div');
+  cb.className = 'checkbox' + (t.done ? ' checked' : '');
+  cb.setAttribute('role','button');
+  cb.title = t.done ? 'Mark as active' : 'Mark as done';
+  cb.innerHTML = t.done ? '✓' : '';
+  cb.addEventListener('click', ()=>{
+    t.done = !t.done; if(t.done) t.completedAt = Date.now(); else t.completedAt = null;
+    save(); render();
+  });
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+  const title = document.createElement('div');
+  title.className = 'title-task';
+  title.textContent = t.title;
+  if(t.done) title.style.textDecoration = 'line-through';
+  const sub = document.createElement('div');
+  sub.className = 'sub';
+  sub.textContent = t.note ? t.note + ' • ' + (t.due ? formatDate(t.due) : '') : (t.due ? formatDate(t.due) : '');
+  meta.appendChild(title);
+  meta.appendChild(sub);
+  left.appendChild(cb);
+  left.appendChild(meta);
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+  const editBtn = document.createElement('button');
+  editBtn.className = 'icon-btn';
+  editBtn.title = 'Edit';
+  editBtn.innerHTML = '✎';
+  editBtn.addEventListener('click', ()=> openEditDialog(t));
+  const delBtn = document.createElement('button');
+  delBtn.className = 'icon-btn danger';
+  delBtn.title = 'Delete';
+  delBtn.innerHTML = '🗑';
+  delBtn.addEventListener('click', ()=>{
+    if(confirm('Delete this task?')) {
+      tasks = tasks.filter(x=>x.id !== t.id);
+      save(); render();
+    }
+  });
+  actions.appendChild(editBtn);
+  actions.appendChild(delBtn);
+  wrap.appendChild(left);
+  wrap.appendChild(actions);
+  return wrap;
+}
+/* add task */
+function addTask(title, note=null, due=null){
+  if(!title || !title.trim()) return;
+  const t = {
+    id: uid(),
+    title: title.trim(),
+    note: note ? note.trim() : '',
+    due: due || null,
+    created: Date.now(),
+    done: false,
+    completedAt: null
+  };
+  tasks.push(t);
+  save(); render();
+}
+/* edit dialog (simple prompt-based) */
+function openEditDialog(t){
+  const newTitle = prompt('Edit title', t.title);
+  if(newTitle === null) return;
+  const newNote = prompt('Edit note (optional)', t.note || '');
+  if(newTitle.trim() === '') return alert('Title cannot be empty');
+  t.title = newTitle.trim();
+  t.note = newNote ? newNote.trim() : '';
+  save(); render();
+}
+/* wire UI */
+addBtn.addEventListener('click', ()=> {
+  addTask(taskInput.value);
+  taskInput.value = '';
+  taskInput.focus();
+});
+taskInput.addEventListener('keydown', e=>{
+  if(e.key === 'Enter') { addTask(taskInput.value); taskInput.value=''; }
+});
+document.addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(chip){
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    render();
+  }
+});
+searchEl.addEventListener('input', ()=> render());
+sortSel.addEventListener('change', ()=> render());
+/* initial render */
+render();
+/* expose some demo tasks if no tasks found (only first time) */
+if(tasks.length === 0){
+  addTask('Buy groceries', 'Milk, eggs, bread');
+  addTask('Finish report', 'Due tomorrow 5pm');
+  addTask('Call Ahmed', 'Discuss project');
+  // remove demo after saving
+  // Keep them as real tasks so user sees UI immediately
+}
+</script>
 </body>
 </html>
